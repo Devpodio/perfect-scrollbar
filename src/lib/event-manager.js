@@ -1,7 +1,21 @@
+let passiveSupported = false;
+try {
+  var options = {
+    get passive() {
+      passiveSupported = true;
+    }
+  };
+  window.addEventListener("test", options, options);
+  window.removeEventListener("test", options, options);
+} catch(err) {
+  passiveSupported = false;
+}
+
 class EventElement {
   constructor(element) {
     this.element = element;
     this.handlers = {};
+    this.eventOptions = passiveSupported ? {passive:false,capture:false} : false;
   }
 
   bind(eventName, handler) {
@@ -9,7 +23,7 @@ class EventElement {
       this.handlers[eventName] = [];
     }
     this.handlers[eventName].push(handler);
-    this.element.addEventListener(eventName, handler, false);
+    this.element.addEventListener(eventName, handler, this.eventOptions);
   }
 
   unbind(eventName, target) {
@@ -17,7 +31,7 @@ class EventElement {
       if (target && handler !== target) {
         return true;
       }
-      this.element.removeEventListener(eventName, handler, false);
+      this.element.removeEventListener(eventName, handler, this.eventOptions);
       return false;
     });
   }

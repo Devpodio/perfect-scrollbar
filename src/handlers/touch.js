@@ -1,4 +1,4 @@
-import updateGeometry from '../update-geometry';
+import {updateGeometry} from '../update-geometry';
 import cls from '../lib/class-names';
 import * as CSS from '../lib/css';
 import { env } from '../lib/util';

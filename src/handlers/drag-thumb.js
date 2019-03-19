@@ -4,7 +4,7 @@ import cls, {
   addScrollingClass,
   removeScrollingClass,
 } from '../lib/class-names';
-import updateGeometry from '../update-geometry';
+import {updateGeometry} from '../update-geometry';
 import { toInt } from '../lib/util';
 
 export default function(i) {

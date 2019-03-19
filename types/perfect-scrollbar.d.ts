@@ -12,11 +12,12 @@ declare namespace PerfectScrollbar {
     useBothWheelAxes?: boolean;
     wheelPropagation?: boolean;
     wheelSpeed?: number;
+    color?: string;
   }
 }
 
 declare class PerfectScrollbar {
-  constructor(element: string | HTMLElement, options?: PerfectScrollbar.Options);
+  constructor(element: string | Element, options?: PerfectScrollbar.Options);
 
   update(): void;
   destroy(): void;

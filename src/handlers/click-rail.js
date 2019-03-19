@@ -1,4 +1,4 @@
-import updateGeometry from '../update-geometry';
+import {updateGeometry} from '../update-geometry';
 
 export default function(i) {
   const element = i.element;

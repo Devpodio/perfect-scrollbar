@@ -7,8 +7,8 @@ if git --no-pager diff --exit-code package.json; then
 fi
 
 # Update lock and rebuild
-npm install
-npm run build
+yarn
+yarn build
 
 # Update gh-pages
 cp css/perfect-scrollbar.css dist/perfect-scrollbar.min.js docs/

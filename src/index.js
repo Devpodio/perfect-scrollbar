@@ -1,9 +1,10 @@
 import * as CSS from './lib/css';
 import * as DOM from './lib/dom';
+import './lib/raf';
 import cls from './lib/class-names';
 import EventManager from './lib/event-manager';
 import processScrollDiff from './process-scroll-diff';
-import updateGeometry from './update-geometry';
+import {updateGeometry} from './update-geometry';
 import { toInt, outerWidth } from './lib/util';
 
 import clickRail from './handlers/click-rail';
@@ -12,7 +13,7 @@ import keyboard from './handlers/keyboard';
 import wheel from './handlers/mouse-wheel';
 import touch from './handlers/touch';
 
-const defaultSettings = () => ({
+const defaultSettings = {
   handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
   maxScrollbarLength: null,
   minScrollbarLength: null,
@@ -25,7 +26,9 @@ const defaultSettings = () => ({
   useBothWheelAxes: false,
   wheelPropagation: true,
   wheelSpeed: 1,
-});
+  colorX: null,
+  colorY: null
+};
 
 const handlers = {
   'click-rail': clickRail,
@@ -49,10 +52,7 @@ export default class PerfectScrollbar {
 
     element.classList.add(cls.main);
 
-    this.settings = defaultSettings();
-    for (const key in userSettings) {
-      this.settings[key] = userSettings[key];
-    }
+    this.settings = Object.assign({},defaultSettings,userSettings)
 
     this.containerWidth = null;
     this.containerHeight = null;
@@ -82,6 +82,9 @@ export default class PerfectScrollbar {
     this.scrollbarX = DOM.div(cls.element.thumb('x'));
     this.scrollbarXRail.appendChild(this.scrollbarX);
     this.scrollbarX.setAttribute('tabindex', 0);
+    if(typeof this.settings.colorX == 'string') {
+      this.scrollbarX.style.setProperty('background-color',this.settings.colorX);
+    }
     this.event.bind(this.scrollbarX, 'focus', focus);
     this.event.bind(this.scrollbarX, 'blur', blur);
     this.scrollbarXActive = null;
@@ -110,6 +113,9 @@ export default class PerfectScrollbar {
     this.scrollbarY = DOM.div(cls.element.thumb('y'));
     this.scrollbarYRail.appendChild(this.scrollbarY);
     this.scrollbarY.setAttribute('tabindex', 0);
+    if(typeof this.settings.colorY == 'string') {
+      this.scrollbarY.style.setProperty('background-color',this.settings.colorY);
+    }
     this.event.bind(this.scrollbarY, 'focus', focus);
     this.event.bind(this.scrollbarY, 'blur', blur);
     this.scrollbarYActive = null;
@@ -155,9 +161,8 @@ export default class PerfectScrollbar {
     this.lastScrollTop = Math.floor(element.scrollTop); // for onScroll only
     this.lastScrollLeft = element.scrollLeft; // for onScroll only
     this.event.bind(this.element, 'scroll', e => this.onScroll(e));
-    updateGeometry(this);
+    updateGeometry(this)
   }
-
   update() {
     if (!this.isAlive) {
       return;
@@ -182,7 +187,7 @@ export default class PerfectScrollbar {
     CSS.set(this.scrollbarXRail, { display: 'none' });
     CSS.set(this.scrollbarYRail, { display: 'none' });
 
-    updateGeometry(this);
+    updateGeometry(this)
 
     processScrollDiff(this, 'top', 0, false, true);
     processScrollDiff(this, 'left', 0, false, true);
@@ -196,7 +201,7 @@ export default class PerfectScrollbar {
       return;
     }
 
-    updateGeometry(this);
+    updateGeometry(this)
     processScrollDiff(this, 'top', this.element.scrollTop - this.lastScrollTop);
     processScrollDiff(
       this,

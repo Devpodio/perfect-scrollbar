@@ -1,6 +1,6 @@
 import * as CSS from '../lib/css';
 import cls from '../lib/class-names';
-import updateGeometry from '../update-geometry';
+import {updateGeometry} from '../update-geometry';
 import { env } from '../lib/util';
 
 export default function(i) {

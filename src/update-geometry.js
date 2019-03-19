@@ -2,8 +2,18 @@ import * as CSS from './lib/css';
 import * as DOM from './lib/dom';
 import cls from './lib/class-names';
 import { toInt } from './lib/util';
+const raf = { id: null }
 
-export default function(i) {
+function updateGeometry(i) {
+  if (raf.id) window.caf(raf.id);
+  raf.id = window.raf(() => updateOwnGeometry(i));
+}
+function updateOwnGeometry(i) {
+  if (raf.id) raf.id = null;
+  update(i);
+}
+
+function update(i) {
   const element = i.element;
   const roundedScrollTop = Math.floor(element.scrollTop);
 
@@ -40,8 +50,8 @@ export default function(i) {
     );
     i.scrollbarXLeft = toInt(
       (i.negativeScrollAdjustment + element.scrollLeft) *
-        (i.railXWidth - i.scrollbarXWidth) /
-        (i.contentWidth - i.containerWidth)
+      (i.railXWidth - i.scrollbarXWidth) /
+      (i.contentWidth - i.containerWidth)
     );
   } else {
     i.scrollbarXActive = false;
@@ -60,8 +70,8 @@ export default function(i) {
     );
     i.scrollbarYTop = toInt(
       roundedScrollTop *
-        (i.railYHeight - i.scrollbarYHeight) /
-        (i.contentHeight - i.containerHeight)
+      (i.railYHeight - i.scrollbarYHeight) /
+      (i.contentHeight - i.containerHeight)
     );
   } else {
     i.scrollbarYActive = false;
@@ -159,3 +169,5 @@ function updateCss(element, i) {
     height: i.scrollbarYHeight - i.railBorderYWidth,
   });
 }
+
+export { updateGeometry }

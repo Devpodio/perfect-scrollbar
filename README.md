@@ -259,6 +259,18 @@ that Y axis scroll bar is not enabled just because of a few pixels.
 
 **Default**: `0`
 
+### `colorX  {String}`
+
+Changes the color of the X thumb axis
+
+**Default**: `0`
+
+### `colorY  {String}`
+
+Changes the color of the Y thumb axis
+
+**Default**: `0`
+
 ## Events
 
 perfect-scrollbar dispatches custom events.
