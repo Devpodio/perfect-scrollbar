@@ -1,5 +1,5 @@
 /**
- * @devpodio/perfect-scrollbar - v1.5.0
+ * @devpodio/perfect-scrollbar - v1.5.1
  * Minimalistic but perfect custom scrollbar plugin
  * undefined
  * Made by Uni Sayo <unibtc@gmail.com>
